@@ -1,5 +1,5 @@
 const transientState = {
-    ownsBlueJeans: false,
+    ownsBlueJeans: null,
     socioLocationId: 0
 }
 
@@ -12,16 +12,28 @@ export const setSocioLocationId = (chosenLocation) => {
 }
 
 export const saveSurveySubmission = async () => {
-    console.log("Saving survey to database...")
-    console.log(transientState)
-    // Create the options for fetch()
-    const postOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(transientState)
+    // Check if transientState is a valid submission
+    let validSubmission = true
+    if (!(transientState.ownsBlueJeans === true || transientState.ownsBlueJeans === false)) {
+        window.alert("Please select whether or not you own a pair of blue jeans.")
+        validSubmission = false
     }
-    // Send the data to the API
-    const response = await fetch("http://localhost:8088/submissions", postOptions)
+    if (transientState.socioLocationId < 1) {
+        window.alert("Please select a location.")
+        validSubmission = false
+    }
+    if (validSubmission) {
+        console.log("Saving survey to database...")
+        console.log(transientState)
+        // Create the options for fetch()
+        const postOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(transientState)
+        }
+        // Send the data to the API
+        const response = await fetch("http://localhost:8088/submissions", postOptions)
+    }
 }
