@@ -20,10 +20,12 @@ export const LocationChoices =  async () => {
             <h2>What type of area do you live in?</h2>
     `
 
-    // TODO: generate radio buttons and add to html
-    for (const location of locations) {
+    // DONE: generate radio buttons and add to html
+    const locationsHTML = locations.map((location) => {
         html += `<input type="radio" name="location" value="${location.id}" /> ${location.label}`
-    }
+    })
+    
+    html += locationsHTML.join("")
 
     html += `
         </div>
